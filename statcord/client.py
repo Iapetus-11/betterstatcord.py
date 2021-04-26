@@ -10,7 +10,7 @@ HEADERS = {"Content-Type": "application/json"}
 STAT_ENDPOINT = "https://statcord.com/logan/stats"
 
 
-class Client:
+class StatcordClient:
     """The base Statcord client class."""
 
     def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: object = None, custom_2: object = None):
