@@ -7,7 +7,7 @@ import psutil
 
 # constants
 HEADERS = {"Content-Type": "application/json"}
-STAT_ENDPOINT = "https://statcord.com/v3/stats"
+STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 
 
 class StatcordClient:
