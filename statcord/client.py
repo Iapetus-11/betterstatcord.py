@@ -104,14 +104,14 @@ class StatcordClient:
             try:
                 await self.post_stats()
             except Exception as e:
-                self.bot.logger.error(f"Statcord stat posting error:\n{self._format_traceback(e)}")
+                self.logger.error(f"Statcord stat posting error:\n{self._format_traceback(e)}")
 
             await asyncio.sleep(60)
 
     async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
 
-        self.bot.logger.debug("Posting stats to Statcord...")
+        self.logger.debug("Posting stats to Statcord...")
 
         # get process details
         mem = psutil.virtual_memory()
@@ -170,8 +170,8 @@ class StatcordClient:
         if 500 % (resp.status + 1) == 500:
             raise Exception("Statcord server error occurred while posting stats.")
         elif resp.status == 429:
-            self.bot.logger.warning("Statcord is ratelimiting us.")
+            self.logger.warning("Statcord is ratelimiting us.")
         elif resp.status != 200:
             raise Exception(f"Statcord server response status was not 200 OK:\n{await resp.text()}")
         else:
-            self.bot.logger.debug("Successfully posted stats to Statcord.")
+            self.logger.debug("Successfully posted stats to Statcord.")
