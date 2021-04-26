@@ -52,7 +52,7 @@ class StatcordClient:
         # start stat posting loop
         self._post_loop_task = bot.loop.create_task(self._post_loop())
 
-    def close() -> None:
+    def close(self) -> None:
         """Closes the Statcord client safely."""
 
         self._post_loop_task.cancel()
