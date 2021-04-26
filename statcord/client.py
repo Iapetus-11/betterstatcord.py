@@ -52,7 +52,7 @@ class Client:
         # start stat posting loop
         self._post_loop_task = bot.loop.create_task(self._post_loop())
 
-    def close():
+    def close() -> None:
         """Closes the Statcord client safely."""
 
         self._post_loop_task.cancel()
@@ -80,7 +80,7 @@ class Client:
 
             return count
 
-    async def _command_ran(self, ctx):
+    async def _command_ran(self, ctx) -> None:
         """Updates command-related statistics."""
 
         if ctx.command_failed:
@@ -95,7 +95,7 @@ class Client:
         except KeyError:
             self._popular_commands[ctx.command.name] = 1
 
-    async def _post_loop(self):
+    async def _post_loop(self) -> None:
         """The stat posting loop which posts stats to the Statcord API."""
 
         while not self.bot.is_closed():
@@ -108,7 +108,7 @@ class Client:
 
             await asyncio.sleep(60)
 
-    async def post_stats(self):
+    async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
 
         self.bot.logger.debug("Posting stats to Statcord...")
