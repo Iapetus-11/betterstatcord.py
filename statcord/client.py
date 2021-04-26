@@ -155,7 +155,7 @@ class Client:
         self._active_users = set()
 
         # actually send the post request
-        resp = await self.aiohttp.post(url=STAT_ENDPOINT, json=data, headers=HEADERS)
+        resp = await self.aiohttp_ses.post(url=STAT_ENDPOINT, json=data, headers=HEADERS)
 
         # handle server response
         if 500 % (resp.status + 1) == 500:
