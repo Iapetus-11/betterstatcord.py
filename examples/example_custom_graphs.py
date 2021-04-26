@@ -1,8 +1,10 @@
 from statcord import StatcordClient
 from discord.ext import commands
 
+
 def custom_graph_1():
     return 420
+
 
 def custom_graph_2():
     return "69"
