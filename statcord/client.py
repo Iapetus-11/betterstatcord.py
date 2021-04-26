@@ -113,9 +113,9 @@ class Client:
         mem_used = str(mem.used)
         mem_load = str(mem.percent)
 
-        total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
-        period_net_usage = str(total_net_usage - self._prev_net_usage)
-        self._prev_net_usage = total_net_usage
+        total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
+        period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
+        self._prev_net_usage = total_net_usage  # update previous net usage counter
 
         if self.custom_1 is not None:
             if asyncio.iscoroutinefunction(self.custom_1):
