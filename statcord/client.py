@@ -37,7 +37,7 @@ class StatcordClient:
         self.logger.setLevel(logging.WARNING)
 
         # create aiohttp clientsession instance
-        self.__aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
+        self._aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
 
         # create counters
         net_io_counter = psutil.net_io_counters()
