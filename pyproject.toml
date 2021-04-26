@@ -1,9 +1,15 @@
 [tool.poetry]
-name = "better-statcord.py"
+name = "betterstatcord.py"
 version = "1.0.0"
 description = "A better Statcord API library for Python + Discord.py"
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/Iapetus-11/betterstatcord.py"
+repository = "https://github.com/Iapetus-11/betterstatcord.py"
+packages = [
+  { include = "statcord" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
