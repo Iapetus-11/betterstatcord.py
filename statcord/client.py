@@ -37,7 +37,7 @@ class Client:
         self.logger.setLevel(logging.WARNING)
 
         # create aiohttp clientsession instance
-        self.aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
+        self.__aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
 
         # create counters
         net_io_counter = psutil.net_io_counters()
@@ -50,7 +50,11 @@ class Client:
         bot.add_listener(self._command_ran, name="on_command")
 
         # start stat posting loop
-        bot.loop.create_task(self.post_loop())
+        self._post_loop_task = bot.loop.create_task(self._post_loop())
+
+    def close():
+        self._post_loop_task.cancel()
+        self.bot.remove_listener(self._command_ran, name="on_command")
 
     @staticmethod
     def _format_traceback(e: Exception) -> str:
@@ -89,7 +93,7 @@ class Client:
         except KeyError:
             self._popular_commands[ctx.command.name] = 1
 
-    async def post_loop(self):
+    async def _post_loop(self):
         """The stat posting loop which posts stats to the Statcord API."""
 
         while not self.bot.is_closed():
@@ -158,7 +162,7 @@ class Client:
         self._active_users = set()
 
         # actually send the post request
-        resp = await self.aiohttp_ses.post(url=STAT_ENDPOINT, json=data, headers=HEADERS)
+        resp = await self._aiohttp_ses.post(url=STAT_ENDPOINT, json=data, headers=HEADERS)
 
         # handle server response
         if 500 % (resp.status + 1) == 500:
