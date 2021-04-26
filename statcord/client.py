@@ -5,11 +5,14 @@ import asyncio
 import logging
 import psutil
 
+# constants
 HEADERS = {"Content-Type": "application/json"}
 STAT_ENDPOINT = "https://statcord.com/logan/stats"
 
 
 class Client:
+    """The base Statcord client class."""
+
     def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: object = None, custom_2: object = None):
         self.bot = bot
         self.statcord_key = statcord_key
