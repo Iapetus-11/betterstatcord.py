@@ -53,6 +53,8 @@ class Client:
         self._post_loop_task = bot.loop.create_task(self._post_loop())
 
     def close():
+        """Closes the Statcord client safely."""
+
         self._post_loop_task.cancel()
         self.bot.remove_listener(self._command_ran, name="on_command")
 
