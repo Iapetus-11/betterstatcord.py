@@ -1,2 +1,2 @@
-# better-statcord.py
-A better statcord library for Python + Discord.py
+# Better-Statcord.py
+A better Statcord API library for Python + Discord.py

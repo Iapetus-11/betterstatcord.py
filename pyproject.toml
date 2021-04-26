@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "better-statcord.py"
 version = "1.0.0"
-description = "A better statcord api library for Python + Discord.py"
+description = "A better Statcord API library for Python + Discord.py"
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
 
