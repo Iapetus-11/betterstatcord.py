@@ -5,7 +5,6 @@ description = "A better Statcord API library for Python + Discord.py"
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/Iapetus-11/betterstatcord.py"
 repository = "https://github.com/Iapetus-11/betterstatcord.py"
 packages = [
   { include = "statcord" }
