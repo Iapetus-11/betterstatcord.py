@@ -1,6 +1,7 @@
 from statcord import StatcordClient
 from discord.ext import commands
 
+
 class MyStatcordCog:
     def __init__(self, bot):
         self.bot = bot
