@@ -2,7 +2,7 @@ from statcord import StatcordClient
 from discord.ext import commands
 
 
-def custom_graph_1():
+async def custom_graph_1():
     return 420
 
 
