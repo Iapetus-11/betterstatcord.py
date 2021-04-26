@@ -56,7 +56,7 @@ class Client:
         return "".join(traceback.format_exception(type(e), e, e.__traceback__, 4))
 
     def _get_user_count(self) -> int:
-        "Gets the user count of the bot as accurately as it can."""
+        "Gets the user count of the bot as accurately as it can." ""
 
         if self.bot.intents.members or self.bot.intents.presences:
             return len(self.bot.users)
@@ -155,9 +155,7 @@ class Client:
         self._active_users = set()
 
         # actually send the post request
-        resp = await self.aiohttp.post(
-            url=STAT_ENDPOINT, json=data, headers=HEADERS
-        )
+        resp = await self.aiohttp.post(url=STAT_ENDPOINT, json=data, headers=HEADERS)
 
         # handle server response
         if 500 % (resp.status + 1) == 500:
