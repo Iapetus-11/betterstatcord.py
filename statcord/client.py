@@ -26,10 +26,10 @@ class StatcordClient:
         if not isinstance(statcord_key, str):
             raise TypeError("The statcord_key argument must be a string.")
 
-        if not callable(custom_1):
+        if not (custom_1 is None or callable(custom_1)):
             raise TypeError("The custom_1 argument must be a callable.")
 
-        if not callable(custom_2):
+        if not (custom_2 is None or callable(custom_2)):
             raise TypeError("The custom_2 argument must be a callable.")
 
         # setup logging
