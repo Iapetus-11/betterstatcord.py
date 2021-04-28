@@ -146,7 +146,7 @@ class StatcordClient:
             "id": str(self.bot.user.id),
             "key": self.statcord_key,
             "servers": str(len(self.bot.guilds)),  # server count
-            "users": str(len(self.bot.users)),  # user count
+            "users": str(self._get_user_count()),  # user count
             "commands": str(self._command_count),  # command count
             "active": list(self._active_users),
             "popular": [{"name": k, "count": v} for k, v in self._popular_commands.items()],  # active commands
