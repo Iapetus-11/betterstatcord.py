@@ -2,7 +2,7 @@ from statcord import StatcordClient
 from discord.ext import commands
 
 
-class MyStatcordCog:
+class MyStatcordCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.statcord_client = StatcordClient(bot, "Statcord API key", self.custom_graph_1)
