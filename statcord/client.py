@@ -106,14 +106,14 @@ class StatcordClient:
 
             await asyncio.sleep(60)
 
-    async def _call_custom_graph(self, callable: Callable) -> object:
-        if self.custom_2 is None:
+    async def _call_custom_graph(self, custom_graph_callable: Callable) -> object:
+        if custom_graph_callable is None:
             return 0
 
-        if asyncio.iscoroutinefunction(self.custom_2):
-            return await callable()
+        if asyncio.iscoroutinefunction(custom_graph_callable):
+            return await custom_graph_callable()
 
-        return callable()
+        return custom_graph_callable()
 
     async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
