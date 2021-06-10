@@ -1,3 +1,4 @@
+from collections import defaultdict
 from discord.ext import commands
 from typing import Callable
 import traceback
@@ -15,7 +16,9 @@ class StatcordClient:
 
     def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None) -> None:
         self.bot = bot
+
         self.statcord_key = statcord_key
+
         self.custom_1 = custom_1
         self.custom_2 = custom_2
 
@@ -42,7 +45,7 @@ class StatcordClient:
         # create counters
         net_io_counter = psutil.net_io_counters()
         self._prev_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
-        self._popular_commands = {}
+        self._popular_commands = defaultdict(int)
         self._command_count = 0
         self._active_users = set()
 
@@ -87,13 +90,8 @@ class StatcordClient:
             return
 
         self._command_count += 1
-
         self._active_users.add(ctx.author.id)
-
-        try:
-            self._popular_commands[ctx.command.name] += 1
-        except KeyError:
-            self._popular_commands[ctx.command.name] = 1
+        self._popular_commands[ctx.command.name] += 1
 
     async def _post_loop(self) -> None:
         """The stat posting loop which posts stats to the Statcord API."""
@@ -155,7 +153,7 @@ class StatcordClient:
         }
 
         # reset counters
-        self._popular_commands = {}
+        self._popular_commands = defaultdict(int)
         self._command_count = 0
         self._active_users = set()
 
