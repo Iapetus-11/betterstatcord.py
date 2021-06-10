@@ -108,6 +108,15 @@ class StatcordClient:
 
             await asyncio.sleep(60)
 
+    async def _call_custom_graph(self, callable) -> object:
+        if self.custom_2 is None:
+            return 0
+
+        if asyncio.iscoroutinefunction(self.custom_2):
+            return await callable()
+                
+        return callable()
+
     async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
 
@@ -126,21 +135,8 @@ class StatcordClient:
         period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
         self._prev_net_usage = total_net_usage  # update previous net usage counter
 
-        if self.custom_1 is not None:
-            if asyncio.iscoroutinefunction(self.custom_1):
-                custom_1_value = await self.custom_1()
-            else:
-                custom_1_value = self.custom_1()
-        else:
-            custom_1_value = 0
-
-        if self.custom_2 is not None:
-            if asyncio.iscoroutinefunction(self.custom_2):
-                custom_2_value = await self.custom_2()
-            else:
-                custom_2_value = self.custom_2()
-        else:
-            custom_2_value = 0
+        custom_1_value = self._call_custom_graph(self.custom_1)
+        custom_2_value = self._call_custom_graph(self.custom_2)
 
         data = {
             "id": str(self.bot.user.id),
