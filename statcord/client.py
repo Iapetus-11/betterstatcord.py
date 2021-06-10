@@ -1,4 +1,5 @@
 from discord.ext import commands
+from typing import Callable
 import traceback
 import aiohttp
 import asyncio
@@ -12,7 +13,7 @@ STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 class StatcordClient:
     """The base Statcord client class."""
 
-    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: object = None, custom_2: object = None):
+    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None) -> None:
         self.bot = bot
         self.statcord_key = statcord_key
         self.custom_1 = custom_1
@@ -79,7 +80,7 @@ class StatcordClient:
 
             return count
 
-    async def _command_ran(self, ctx) -> None:
+    async def _command_ran(self, ctx: commands.Context) -> None:
         """Updates command-related statistics."""
 
         if ctx.command_failed:
@@ -107,7 +108,7 @@ class StatcordClient:
 
             await asyncio.sleep(60)
 
-    async def _call_custom_graph(self, callable) -> object:
+    async def _call_custom_graph(self, callable: Callable) -> object:
         if self.custom_2 is None:
             return 0
 
