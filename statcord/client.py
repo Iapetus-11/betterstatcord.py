@@ -5,7 +5,6 @@ import asyncio
 import logging
 import psutil
 
-# constants
 HEADERS = {"Content-Type": "application/json"}
 STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 
