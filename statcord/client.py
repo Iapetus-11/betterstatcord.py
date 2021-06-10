@@ -113,7 +113,7 @@ class StatcordClient:
 
         if asyncio.iscoroutinefunction(self.custom_2):
             return await callable()
-                
+
         return callable()
 
     async def post_stats(self) -> None:
