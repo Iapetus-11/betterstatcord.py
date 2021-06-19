@@ -118,7 +118,7 @@ class StatcordClient:
 
     async def _call_custom_graph(self, custom_graph_callable: Callable) -> object:
         if custom_graph_callable is None:
-            return "0"
+            return None
 
         if asyncio.iscoroutinefunction(custom_graph_callable):
             return await custom_graph_callable()
@@ -143,9 +143,6 @@ class StatcordClient:
         period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
         self._prev_net_usage = total_net_usage  # update previous net usage counter
 
-        custom_1_value = self._call_custom_graph(self.custom_1)
-        custom_2_value = self._call_custom_graph(self.custom_2)
-
         data = {
             "id": str(self.bot.user.id),
             "key": self.statcord_key,
@@ -158,9 +155,16 @@ class StatcordClient:
             "memload": mem_load,
             "cpuload": cpu_load,
             "bandwidth": period_net_usage,
-            "custom1": str(custom_1_value),
-            "custom2": str(custom_2_value),
         }
+
+        custom_1_value = await self._call_custom_graph(self.custom_1)
+        custom_2_value = await self._call_custom_graph(self.custom_2)
+
+        if custom_1_value is not None:
+            data["custom1"] = custom_1_value
+        
+        if custom_2_value is not None:
+            data["custom2"] = custom_2_value
 
         # reset counters
         self._popular_commands = defaultdict(int)
