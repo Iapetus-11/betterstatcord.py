@@ -162,7 +162,7 @@ class StatcordClient:
 
         if custom_1_value is not None:
             data["custom1"] = custom_1_value
-        
+
         if custom_2_value is not None:
             data["custom2"] = custom_2_value
 
