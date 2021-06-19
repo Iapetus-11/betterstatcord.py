@@ -15,7 +15,14 @@ CLUSTERS_ENDPOINT = "https://api.statcord.com/v3/clusters"
 class StatcordClient:
     """The base Statcord client class."""
 
-    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None, cluster_id: str = None) -> None:
+    def __init__(
+        self,
+        bot: commands.Bot,
+        statcord_key: str,
+        custom_1: Callable = None,
+        custom_2: Callable = None,
+        cluster_id: str = None,
+    ) -> None:
         self.bot = bot
 
         self.statcord_key = statcord_key
