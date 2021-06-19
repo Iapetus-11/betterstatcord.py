@@ -9,18 +9,21 @@ import psutil
 
 HEADERS = {"Content-Type": "application/json"}
 STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
+CLUSTERS_ENDPOINT = "https://api.statcord.com/v3/clusters"
 
 
 class StatcordClient:
     """The base Statcord client class."""
 
-    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None) -> None:
+    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None, cluster_id: str = None) -> None:
         self.bot = bot
 
         self.statcord_key = statcord_key
 
         self.custom_1 = custom_1
         self.custom_2 = custom_2
+
+        self.cluster_id = cluster_id
 
         # validate args
         if not isinstance(bot, commands.Bot):
@@ -108,7 +111,7 @@ class StatcordClient:
 
     async def _call_custom_graph(self, custom_graph_callable: Callable) -> object:
         if custom_graph_callable is None:
-            return 0
+            return "0"
 
         if asyncio.iscoroutinefunction(custom_graph_callable):
             return await custom_graph_callable()
