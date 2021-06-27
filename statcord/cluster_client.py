@@ -26,8 +26,8 @@ class StatcordClusterClient:
         self.cluster_id = cluster_id
 
         # validate args
-        if not isinstance(bot, commands.Bot):
-            raise TypeError("The bot argument must be or be a subclass of discord.ext.commands.Bot")
+        if not isinstance(bot, (commands.Bot, commands.AutoShardedBot)):
+            raise TypeError("The bot argument must be or be a subclass of discord.ext.commands.Bot or discord.ext.commands.AutoShardedBot")
 
         if not isinstance(statcord_key, str):
             raise TypeError("The statcord_key argument must be a string.")
