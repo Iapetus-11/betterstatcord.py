@@ -3,3 +3,4 @@
 __version__ = "1.5.2"
 
 from .client import StatcordClient
+from .cluster_client import StatcordClusterClient

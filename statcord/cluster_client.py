@@ -8,7 +8,7 @@ import logging
 import psutil
 
 HEADERS = {"Content-Type": "application/json"}
-STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
+STAT_ENDPOINT = "https://api.statcord.com/v3/clusters"
 
 
 class StatcordClient:
@@ -18,12 +18,15 @@ class StatcordClient:
         self,
         bot: commands.Bot,
         statcord_key: str,
+        cluster_id: str,
         custom_1: Callable = None,
-        custom_2: Callable = None
+        custom_2: Callable = None,
     ) -> None:
         self.bot = bot
 
         self.statcord_key = statcord_key
+
+        self.cluster_id = cluster_id
 
         self.custom_1 = custom_1
         self.custom_2 = custom_2
@@ -141,6 +144,7 @@ class StatcordClient:
 
         data = {
             "id": str(self.bot.user.id),
+            "cluster_id": self.cluster_id,
             "key": self.statcord_key,
             "servers": str(len(self.bot.guilds)),  # server count
             "users": str(self._get_user_count()),  # user count
