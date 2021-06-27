@@ -17,7 +17,7 @@ class StatcordClusterClient:
         self,
         bot: commands.Bot,
         statcord_key: str,
-        cluster_id: str,
+        cluster_id: str
     ) -> None:
         self.bot = bot
 
