@@ -14,13 +14,7 @@ STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 class StatcordClient:
     """The base Statcord client class."""
 
-    def __init__(
-        self,
-        bot: commands.Bot,
-        statcord_key: str,
-        custom_1: Callable = None,
-        custom_2: Callable = None
-    ) -> None:
+    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None) -> None:
         self.bot = bot
 
         self.statcord_key = statcord_key
