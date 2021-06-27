@@ -13,12 +13,7 @@ STAT_ENDPOINT = "https://api.statcord.com/v3/clusters"
 class StatcordClusterClient:
     """The base Statcord client class for clustered bots."""
 
-    def __init__(
-        self,
-        bot: commands.Bot,
-        statcord_key: str,
-        cluster_id: str
-    ) -> None:
+    def __init__(self, bot: commands.Bot, statcord_key: str, cluster_id: str) -> None:
         self.bot = bot
 
         self.statcord_key = statcord_key
@@ -27,7 +22,9 @@ class StatcordClusterClient:
 
         # validate args
         if not isinstance(bot, (commands.Bot, commands.AutoShardedBot)):
-            raise TypeError("The bot argument must be or be a subclass of discord.ext.commands.Bot or discord.ext.commands.AutoShardedBot")
+            raise TypeError(
+                "The bot argument must be or be a subclass of discord.ext.commands.Bot or discord.ext.commands.AutoShardedBot"
+            )
 
         if not isinstance(statcord_key, str):
             raise TypeError("The statcord_key argument must be a string.")
