@@ -1,6 +1,5 @@
 from collections import defaultdict
 from discord.ext import commands
-from typing import Callable
 import traceback
 import aiohttp
 import asyncio
@@ -19,8 +18,6 @@ class StatcordClient:
         bot: commands.Bot,
         statcord_key: str,
         cluster_id: str,
-        custom_1: Callable = None,
-        custom_2: Callable = None,
     ) -> None:
         self.bot = bot
 
@@ -28,21 +25,12 @@ class StatcordClient:
 
         self.cluster_id = cluster_id
 
-        self.custom_1 = custom_1
-        self.custom_2 = custom_2
-
         # validate args
         if not isinstance(bot, commands.Bot):
             raise TypeError("The bot argument must be or be a subclass of discord.ext.commands.Bot")
 
         if not isinstance(statcord_key, str):
             raise TypeError("The statcord_key argument must be a string.")
-
-        if not (custom_1 is None or callable(custom_1)):
-            raise TypeError("The custom_1 argument must be a callable.")
-
-        if not (custom_2 is None or callable(custom_2)):
-            raise TypeError("The custom_2 argument must be a callable.")
 
         # setup logging
         self.logger = logging.getLogger("statcord")
@@ -115,15 +103,6 @@ class StatcordClient:
 
             await asyncio.sleep(60)
 
-    async def _call_custom_graph(self, custom_graph_callable: Callable) -> object:
-        if custom_graph_callable is None:
-            return None
-
-        if asyncio.iscoroutinefunction(custom_graph_callable):
-            return await custom_graph_callable()
-
-        return custom_graph_callable()
-
     async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
 
@@ -156,15 +135,6 @@ class StatcordClient:
             "cpuload": cpu_load,
             "bandwidth": period_net_usage,
         }
-
-        custom_1_value = await self._call_custom_graph(self.custom_1)
-        custom_2_value = await self._call_custom_graph(self.custom_2)
-
-        if custom_1_value is not None:
-            data["custom1"] = custom_1_value
-
-        if custom_2_value is not None:
-            data["custom2"] = custom_2_value
 
         # reset counters
         self._popular_commands = defaultdict(int)
