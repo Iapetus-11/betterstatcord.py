@@ -13,9 +13,9 @@ class StatcordClusterClient(StatcordClient):
         self,
         bot: commands.Bot,
         statcord_key: str,
-        mem_stats: bool,
-        cpu_stats: bool,
-        net_stats: bool,
+        mem_stats: bool = True,
+        cpu_stats: bool = True,
+        net_stats: bool = True,
     ) -> None:
         super().__init__(
             bot,
