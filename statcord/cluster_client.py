@@ -1,12 +1,30 @@
 import psutil
 from collections import defaultdict
 
+from discord.ext import commands
+
 from statcord.client import StatcordClient, HEADERS
 
 STAT_ENDPOINT = "https://api.statcord.com/v3/clusters"
 
 
 class StatcordClusterClient(StatcordClient):
+    def __init__(
+        self,
+        bot: commands.Bot,
+        statcord_key: str,
+        mem_stats: bool,
+        cpu_stats: bool,
+        net_stats: bool,
+    ) -> None:
+        super().__init__(
+            bot,
+            statcord_key,
+            mem_stats=mem_stats,
+            cpu_stats=cpu_stats,
+            net_stats=net_stats
+        )
+
     async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
 
