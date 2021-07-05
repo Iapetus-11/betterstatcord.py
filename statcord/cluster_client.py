@@ -13,6 +13,7 @@ class StatcordClusterClient(StatcordClient):
         self,
         bot: commands.Bot,
         statcord_key: str,
+        cluster_id: str,
         mem_stats: bool = True,
         cpu_stats: bool = True,
         net_stats: bool = True,
@@ -24,6 +25,7 @@ class StatcordClusterClient(StatcordClient):
             cpu_stats=cpu_stats,
             net_stats=net_stats
         )
+        self.cluster_id = cluster_id
 
     async def post_stats(self) -> None:
         """Helper method used to actually post the stats to Statcord."""
