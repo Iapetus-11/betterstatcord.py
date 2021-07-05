@@ -86,18 +86,11 @@ class StatcordClient:
     def _get_user_count(self) -> int:
         """Gets the user count of the bot as accurately as it can."""
 
-        if self.bot.intents.members or self.bot.intents.presences:
-            return len(self.bot.users)
-        else:
-            count = 0
-
-            for guild in self.bot.guilds:
-                try:
-                    count += guild.member_count
-                except (AttributeError, ValueError):
-                    pass
-
-            return count
+        return sum([
+            g.member_count for g in self.bot.guilds
+            if hasattr(g, "member_count")
+            and g.member_count is not None
+        ])
 
     async def _command_ran(self, ctx: commands.Context) -> None:
         """Updates command-related statistics."""
