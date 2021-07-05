@@ -14,7 +14,16 @@ STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 class StatcordClient:
     """The base Statcord client class."""
 
-    def __init__(self, bot: commands.Bot, statcord_key: str, custom_1: Callable = None, custom_2: Callable = None) -> None:
+    def __init__(
+        self,
+        bot: commands.Bot,
+        statcord_key: str,
+        custom_1: Callable = None,
+        custom_2: Callable = None,
+        mem_stats: bool = True,
+        cpu_stats: bool = True,
+        net_stats: bool = True,
+    ) -> None:
         self.bot = bot
 
         self.statcord_key = statcord_key
@@ -40,6 +49,11 @@ class StatcordClient:
         # setup logging
         self.logger = logging.getLogger("statcord")
         self.logger.setLevel(logging.WARNING)
+
+        # configuration
+        self.post_mem_stats = mem_stats
+        self.post_cpu_stats = cpu_stats
+        self.post_net_stats = net_stats
 
         # create aiohttp clientsession instance
         self._aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
@@ -122,18 +136,29 @@ class StatcordClient:
 
         self.logger.debug("Posting stats to Statcord...")
 
-        # get process details
-        mem = psutil.virtual_memory()
-        net_io_counter = psutil.net_io_counters()
-        cpu_load = str(psutil.cpu_percent())
+        # mem stats
+        if self.post_mem_stats:
+            mem = psutil.virtual_memory()
+            mem_used = str(mem.used)
+            mem_load = str(mem.percent)
+        else:
+            mem_used = "0"
+            mem_load = "0"
 
-        # get data ready to send + update old data
-        mem_used = str(mem.used)
-        mem_load = str(mem.percent)
+        # cpu stats
+        if self.post_cpu_stats:
+            cpu_load = str(psutil.cpu_percent())
+        else:
+            cpu_load = "0"
 
-        total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
-        period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
-        self._prev_net_usage = total_net_usage  # update previous net usage counter
+        # network stats
+        if self.post_net_stats:
+            net_io_counter = psutil.net_io_counters()
+            total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
+            period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
+            self._prev_net_usage = total_net_usage  # update previous net usage counter
+        else:
+            period_net_usage = "0"
 
         data = {
             "id": str(self.bot.user.id),
