@@ -32,22 +32,32 @@ class StatcordClusterClient(StatcordClient):
 
         self.logger.debug("Posting stats to Statcord...")
 
-        # get process details
-        mem = psutil.virtual_memory()
-        net_io_counter = psutil.net_io_counters()
-        cpu_load = str(psutil.cpu_percent())
+        # mem stats
+        if self.post_mem_stats:
+            mem = psutil.virtual_memory()
+            mem_used = str(mem.used)
+            mem_load = str(mem.percent)
+        else:
+            mem_used = "0"
+            mem_load = "0"
 
-        # get data ready to send + update old data
-        mem_used = str(mem.used)
-        mem_load = str(mem.percent)
+        # cpu stats
+        if self.post_cpu_stats:
+            cpu_load = str(psutil.cpu_percent())
+        else:
+            cpu_load = "0"
 
-        total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
-        period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
-        self._prev_net_usage = total_net_usage  # update previous net usage counter
+        # network stats
+        if self.post_net_stats:
+            net_io_counter = psutil.net_io_counters()
+            total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
+            period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
+            self._prev_net_usage = total_net_usage  # update previous net usage counter
+        else:
+            period_net_usage = "0"
 
         data = {
             "id": str(self.bot.user.id),
-            "cluster_id": self.cluster_id,
             "key": self.statcord_key,
             "servers": str(len(self.bot.guilds)),  # server count
             "users": str(self._get_user_count()),  # user count
