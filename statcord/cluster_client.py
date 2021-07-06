@@ -58,6 +58,7 @@ class StatcordClusterClient(StatcordClient):
 
         data = {
             "id": str(self.bot.user.id),
+            "cluster_id": self.cluster_id,
             "key": self.statcord_key,
             "servers": str(len(self.bot.guilds)),  # server count
             "users": str(self._get_user_count()),  # user count
