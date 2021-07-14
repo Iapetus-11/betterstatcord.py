@@ -181,6 +181,6 @@ class StatcordClient:
         elif resp.status == 429:
             self.logger.warning("Statcord is ratelimiting us.")
         elif resp.status != 200:
-            raise Exception(f"Statcord server response status was not 200 OK:\n{await resp.text()}")
+            raise Exception(f"Statcord server response status was not 200 OK (Was {resp.status}):\n{await resp.text()}")
         else:
             self.logger.debug("Successfully posted stats to Statcord.")
