@@ -18,13 +18,7 @@ class StatcordClusterClient(StatcordClient):
         cpu_stats: bool = True,
         net_stats: bool = True,
     ) -> None:
-        super().__init__(
-            bot,
-            statcord_key,
-            mem_stats=mem_stats,
-            cpu_stats=cpu_stats,
-            net_stats=net_stats
-        )
+        super().__init__(bot, statcord_key, mem_stats=mem_stats, cpu_stats=cpu_stats, net_stats=net_stats)
         self.cluster_id = cluster_id
 
     async def post_stats(self) -> None:
