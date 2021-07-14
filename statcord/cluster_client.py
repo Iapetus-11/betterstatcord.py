@@ -9,13 +9,7 @@ STAT_ENDPOINT = "https://api.statcord.com/v3/clusters"
 
 
 class StatcordClusterClient(StatcordClient):
-    def __init__(
-        self,
-        bot: commands.Bot,
-        statcord_key: str,
-        cluster_id: str,
-        resource_stats: bool = True
-    ) -> None:
+    def __init__(self, bot: commands.Bot, statcord_key: str, cluster_id: str, resource_stats: bool = True) -> None:
         super().__init__(bot, statcord_key, resource_stats=resource_stats)
         self.cluster_id = cluster_id
 
@@ -40,9 +34,8 @@ class StatcordClusterClient(StatcordClient):
             mem_load = "0"
 
             cpu_load = "0"
-            
-            period_net_usage = "0"
 
+            period_net_usage = "0"
 
         data = {
             "id": str(self.bot.user.id),
