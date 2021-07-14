@@ -20,9 +20,7 @@ class StatcordClient:
         statcord_key: str,
         custom_1: Callable = None,
         custom_2: Callable = None,
-        mem_stats: bool = True,
-        cpu_stats: bool = True,
-        net_stats: bool = True,
+        resource_stats: bool = True
     ) -> None:
         self.bot = bot
 
@@ -51,16 +49,18 @@ class StatcordClient:
         self.logger.setLevel(logging.WARNING)
 
         # configuration
-        self.post_mem_stats = mem_stats
-        self.post_cpu_stats = cpu_stats
-        self.post_net_stats = net_stats
+        self.resource_stats = resource_stats
 
         # create aiohttp clientsession instance
         self._aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
 
         # create counters
-        net_io_counter = psutil.net_io_counters()
-        self._prev_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
+        if self.resource_stats:
+            net_io_counter = psutil.net_io_counters()
+            self._prev_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
+        else:
+            self._prev_net_usage = None
+
         self._popular_commands = defaultdict(int)
         self._command_count = 0
         self._active_users = set()
@@ -125,28 +125,23 @@ class StatcordClient:
 
         self.logger.debug("Posting stats to Statcord...")
 
-        # mem stats
-        if self.post_mem_stats:
+        if self.resource_stats:
             mem = psutil.virtual_memory()
             mem_used = str(mem.used)
             mem_load = str(mem.percent)
-        else:
-            mem_used = "0"
-            mem_load = "0"
 
-        # cpu stats
-        if self.post_cpu_stats:
             cpu_load = str(psutil.cpu_percent())
-        else:
-            cpu_load = "0"
 
-        # network stats
-        if self.post_net_stats:
             net_io_counter = psutil.net_io_counters()
             total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
             period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
             self._prev_net_usage = total_net_usage  # update previous net usage counter
         else:
+            mem_used = "0"
+            mem_load = "0"
+
+            cpu_load = "0"
+            
             period_net_usage = "0"
 
         data = {

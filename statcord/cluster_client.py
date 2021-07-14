@@ -14,11 +14,9 @@ class StatcordClusterClient(StatcordClient):
         bot: commands.Bot,
         statcord_key: str,
         cluster_id: str,
-        mem_stats: bool = True,
-        cpu_stats: bool = True,
-        net_stats: bool = True,
+        resource_stats: bool = True
     ) -> None:
-        super().__init__(bot, statcord_key, mem_stats=mem_stats, cpu_stats=cpu_stats, net_stats=net_stats)
+        super().__init__(bot, statcord_key, resource_stats=resource_stats)
         self.cluster_id = cluster_id
 
     async def post_stats(self) -> None:
@@ -26,29 +24,25 @@ class StatcordClusterClient(StatcordClient):
 
         self.logger.debug("Posting stats to Statcord...")
 
-        # mem stats
-        if self.post_mem_stats:
+        if self.resource_stats:
             mem = psutil.virtual_memory()
             mem_used = str(mem.used)
             mem_load = str(mem.percent)
-        else:
-            mem_used = "0"
-            mem_load = "0"
 
-        # cpu stats
-        if self.post_cpu_stats:
             cpu_load = str(psutil.cpu_percent())
-        else:
-            cpu_load = "0"
 
-        # network stats
-        if self.post_net_stats:
             net_io_counter = psutil.net_io_counters()
             total_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv  # current net usage
             period_net_usage = str(total_net_usage - self._prev_net_usage)  # net usage to be sent
             self._prev_net_usage = total_net_usage  # update previous net usage counter
         else:
+            mem_used = "0"
+            mem_load = "0"
+
+            cpu_load = "0"
+            
             period_net_usage = "0"
+
 
         data = {
             "id": str(self.bot.user.id),
