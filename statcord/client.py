@@ -20,7 +20,7 @@ class StatcordClient:
         statcord_key: str,
         custom_1: Callable = None,
         custom_2: Callable = None,
-        resource_stats: bool = True
+        resource_stats: bool = True,
     ) -> None:
         self.bot = bot
 
@@ -141,7 +141,7 @@ class StatcordClient:
             mem_load = "0"
 
             cpu_load = "0"
-            
+
             period_net_usage = "0"
 
         data = {
