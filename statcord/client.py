@@ -176,9 +176,7 @@ class StatcordClient:
         resp = await self._aiohttp_ses.post(url=STAT_ENDPOINT, json=data, headers=HEADERS)
 
         # handle server response
-        if 500 % (resp.status + 1) == 500:
-            raise Exception("Statcord server error occurred while posting stats.")
-        elif resp.status == 429:
+        if resp.status == 429:
             self.logger.warning("Statcord is ratelimiting us.")
         elif resp.status != 200:
             raise Exception(f"Statcord server response status was not 200 OK (Was {resp.status}):\n{await resp.text()}")
