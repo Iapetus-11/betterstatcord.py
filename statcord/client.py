@@ -85,8 +85,10 @@ class StatcordClient:
 
     def _get_user_count(self) -> int:
         """Gets the user count of the bot as accurately as it can."""
+        cache_size = len(self.bot.users)
+        member_count = sum([g.member_count for g in self.bot.guilds if hasattr(g, "member_count") and g.member_count is not None])
 
-        return sum([g.member_count for g in self.bot.guilds if hasattr(g, "member_count") and g.member_count is not None])
+        return max(cache_size, member_count)
 
     async def _command_ran(self, ctx: commands.Context) -> None:
         """Updates command-related statistics."""
