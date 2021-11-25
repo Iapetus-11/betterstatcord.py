@@ -1,15 +1,13 @@
 import psutil
 from collections import defaultdict
 
-from discord.ext import commands
-
 from statcord.client import StatcordClient, HEADERS
 
 STAT_ENDPOINT = "https://api.statcord.com/v3/clusters"
 
 
 class StatcordClusterClient(StatcordClient):
-    def __init__(self, bot: commands.Bot, statcord_key: str, cluster_id: str, resource_stats: bool = True) -> None:
+    def __init__(self, bot, statcord_key: str, cluster_id: str, resource_stats: bool = True) -> None:
         super().__init__(bot, statcord_key, resource_stats=resource_stats)
         self.cluster_id = cluster_id
 

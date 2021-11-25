@@ -1,5 +1,4 @@
 from collections import defaultdict
-from discord.ext import commands
 from typing import Callable
 import traceback
 import aiohttp
@@ -16,7 +15,7 @@ class StatcordClient:
 
     def __init__(
         self,
-        bot: commands.Bot,
+        bot,
         statcord_key: str,
         custom_1: Callable = None,
         custom_2: Callable = None,
@@ -30,11 +29,6 @@ class StatcordClient:
         self.custom_2 = custom_2
 
         # validate args
-        if not isinstance(bot, (commands.Bot, commands.AutoShardedBot)):
-            raise TypeError(
-                "The bot argument must be or be a subclass of discord.ext.commands.Bot or discord.ext.commands.AutoShardedBot"
-            )
-
         if not isinstance(statcord_key, str):
             raise TypeError("The statcord_key argument must be a string.")
 
@@ -92,7 +86,7 @@ class StatcordClient:
 
         return max(cache_size, member_count)
 
-    async def _command_ran(self, ctx: commands.Context) -> None:
+    async def _command_ran(self, ctx) -> None:
         """Updates command-related statistics."""
 
         if ctx.command_failed:

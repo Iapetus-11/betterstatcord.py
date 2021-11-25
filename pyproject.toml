@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "BetterStatcord.py"
-version = "3.2.0"
+version = "3.3.0"
 description = "A better Statcord API library for Python + Discord.py"
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
@@ -14,7 +14,6 @@ packages = [
 python = "^3.7"
 aiohttp = "^3.7.4"
 psutil = "^5.8.0"
-"discord.py" = "^1.7.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b0"
