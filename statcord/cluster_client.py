@@ -1,5 +1,5 @@
-import psutil
 from collections import defaultdict
+import psutil
 
 from statcord.client import StatcordClient, HEADERS
 
