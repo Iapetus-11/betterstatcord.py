@@ -1,5 +1,5 @@
 # BetterStatcord.py ![Code Quality](https://www.codefactor.io/repository/github/iapetus-11/betterstatcord.py/badge) ![PYPI Version](https://img.shields.io/pypi/v/betterstatcord.py.svg?color=0FAE6E) ![PYPI Weekly Downloads](https://img.shields.io/pypi/dw/betterstatcord.py?color=0FAE6E)
-A better Statcord API library for Python + Discord.py
+A better Statcord API library for Python + Discord.py (and maybe its forks)
 
 ## Advantages
 - **It's blazin fast**: The official library is full of inefficient, slow, and unnecessary code which does nothing **except slow your bot down**.
