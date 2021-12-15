@@ -9,6 +9,8 @@ import psutil
 HEADERS = {"Content-Type": "application/json"}
 STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 
+def _get_package_name(obj: object) -> str:
+    return obj.__module__.split(".")[0]
 
 class StatcordClient:
     """The base Statcord client class."""
@@ -62,6 +64,9 @@ class StatcordClient:
         # add on_command handler
         bot.add_listener(self._command_ran, name="on_command")
 
+        if _get_package_name(bot) == "disnake":
+            bot.add_listener(self._disnake_slash_command_ran, name="on_slash_command")
+
         # start stat posting loop
         self._post_loop_task = bot.loop.create_task(self._post_loop())
 
@@ -95,6 +100,13 @@ class StatcordClient:
         self._command_count += 1
         self._active_users.add(ctx.author.id)
         self._popular_commands[ctx.command.name] += 1
+
+    async def _disnake_slash_command_ran(self, inter: "disnake.ApplicationCommandInteraction") -> None:  # type: ignore
+        """Updates disnake slash command-related statistics."""
+
+        self._command_count += 1
+        self._active_users.add(inter.author.id)
+        self._popular_commands[inter.data.name]
 
     async def _post_loop(self) -> None:
         """The stat posting loop which posts stats to the Statcord API."""
