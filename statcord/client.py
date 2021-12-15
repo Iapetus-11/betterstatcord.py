@@ -9,8 +9,10 @@ import psutil
 HEADERS = {"Content-Type": "application/json"}
 STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 
+
 def _get_package_name(obj: object) -> str:
     return obj.__module__.split(".")[0]
+
 
 class StatcordClient:
     """The base Statcord client class."""
