@@ -108,7 +108,7 @@ class StatcordClient:
 
         self._command_count += 1
         self._active_users.add(inter.author.id)
-        self._popular_commands[inter.data.name]
+        self._popular_commands[inter.data.name] += 1
 
     async def _post_loop(self) -> None:
         """The stat posting loop which posts stats to the Statcord API."""
