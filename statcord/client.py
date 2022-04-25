@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Callable
+from typing import Callable, DefaultDict, Optional, Set, Union
 import traceback
 import aiohttp
 import asyncio
@@ -61,15 +61,14 @@ class StatcordClient:
         self._aiohttp_ses = aiohttp.ClientSession(loop=bot.loop)
 
         # create counters
+        self._prev_net_usage: Optional[int] = None
         if self.resource_stats:
             net_io_counter = psutil.net_io_counters()
             self._prev_net_usage = net_io_counter.bytes_sent + net_io_counter.bytes_recv
-        else:
-            self._prev_net_usage = None
 
-        self._popular_commands = defaultdict(int)
+        self._popular_commands: DefaultDict[str, int] = defaultdict(int)
         self._command_count = 0
-        self._active_users = set()
+        self._active_users: Set[int] = set()
 
         # add on_command handler
         bot.add_listener(self._command_ran, name="on_command")
@@ -116,14 +115,14 @@ class StatcordClient:
         self._active_users.add(ctx.author.id)
         self._popular_commands[ctx.command.name] += 1
 
-    async def _disnake_slash_command_ran(self, inter: "disnake.ApplicationCommandInteraction") -> None:  # type: ignore
+    async def _disnake_slash_command_ran(self, inter: "disnake.ApplicationCommandInteraction") -> None:  # type: ignore # noqa: F821
         """Updates disnake slash command-related statistics."""
 
         self._command_count += 1
         self._active_users.add(inter.author.id)
         self._popular_commands[inter.data.name] += 1
 
-    async def _pycord_slash_command_ran(self, inter: "discord.ApplicationContext") -> None:  # type: ignore
+    async def _pycord_slash_command_ran(self, inter: "discord.ApplicationContext") -> None:  # type: ignore # noqa: F821
         """Updates pycord slash command-related statistics."""
 
         self._command_count += 1

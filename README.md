@@ -8,7 +8,7 @@ A better Statcord API library for Python + Discord.py (and maybe its forks)
 - **More accurate**: This library has more accurate statistics than the official one.
 - **Supports clustering**: This library has a special class for clustered bots, which supports the clustered API stats endpoint.
 - **Supports Discord.py forks**: The main library does not...
-- **Supports Disnake slash commands**: Supports Disnake slash commands.
+- **Supports Disnake + Pycord slash commands**: Supports slash commands for both of these forks.
 
 
 ## Examples

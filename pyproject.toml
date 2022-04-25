@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "BetterStatcord.py"
-version = "3.4.1"
-description = "A better Statcord API library for Python + Discord.py"
+version = "3.5.0"
+description = "A better Statcord API library for Python + Discord.py and its forks"
 authors = ["Milo Weinberg <iapetus011@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -22,3 +22,12 @@ flake8 = "^3.9.1"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 127
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 127
