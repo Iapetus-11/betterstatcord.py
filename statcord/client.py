@@ -11,6 +11,14 @@ STAT_ENDPOINT = "https://api.statcord.com/v3/stats"
 
 
 def _get_package_name(obj: object) -> str:
+    try:
+        import discord
+    except ImportError:
+        pass
+    else:
+        if discord.__title__.lower() == "pycord":
+            return "pycord"
+
     return obj.__module__.split(".")[0]
 
 
@@ -18,12 +26,12 @@ class StatcordClient:
     """The base Statcord client class."""
 
     def __init__(
-        self,
-        bot,
-        statcord_key: str,
-        custom_1: Callable = None,
-        custom_2: Callable = None,
-        resource_stats: bool = True,
+            self,
+            bot,
+            statcord_key: str,
+            custom_1: Callable = None,
+            custom_2: Callable = None,
+            resource_stats: bool = True,
     ) -> None:
         self.bot = bot
 
@@ -66,8 +74,13 @@ class StatcordClient:
         # add on_command handler
         bot.add_listener(self._command_ran, name="on_command")
 
-        if _get_package_name(bot) == "disnake":
+        pkg_name = _get_package_name(bot)
+
+        if pkg_name == "disnake":
             bot.add_listener(self._disnake_slash_command_ran, name="on_slash_command")
+
+        elif pkg_name == "pycord":
+            bot.add_listener(self._pycord_slash_command_ran, name="on_application_command")
 
         # start stat posting loop
         self._post_loop_task = bot.loop.create_task(self._post_loop())
@@ -109,6 +122,13 @@ class StatcordClient:
         self._command_count += 1
         self._active_users.add(inter.author.id)
         self._popular_commands[inter.data.name] += 1
+
+    async def _pycord_slash_command_ran(self, inter: "discord.ApplicationContext") -> None:  # type: ignore
+        """Updates pycord slash command-related statistics."""
+
+        self._command_count += 1
+        self._active_users.add(inter.interaction.user.id)
+        self._popular_commands[inter.interaction.data["name"]] += 1
 
     async def _post_loop(self) -> None:
         """The stat posting loop which posts stats to the Statcord API."""
