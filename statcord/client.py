@@ -26,12 +26,12 @@ class StatcordClient:
     """The base Statcord client class."""
 
     def __init__(
-            self,
-            bot,
-            statcord_key: str,
-            custom_1: Callable = None,
-            custom_2: Callable = None,
-            resource_stats: bool = True,
+        self,
+        bot,
+        statcord_key: str,
+        custom_1: Callable = None,
+        custom_2: Callable = None,
+        resource_stats: bool = True,
     ) -> None:
         self.bot = bot
 
