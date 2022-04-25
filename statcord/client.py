@@ -16,7 +16,7 @@ def _get_package_name(obj: object) -> str:
     except ImportError:
         pass
     else:
-        if discord.__author__.lower().startswith("pycord"):
+        if discord.__title__.lower() == "pycord":
             return "pycord"
 
     return obj.__module__.split(".")[0]
