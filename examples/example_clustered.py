@@ -1,5 +1,6 @@
-from statcord import StatcordClusterClient
 from discord.ext import commands
+
+from statcord import StatcordClusterClient
 
 
 def main():

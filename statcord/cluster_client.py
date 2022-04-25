@@ -1,7 +1,8 @@
 from collections import defaultdict
+
 import psutil
 
-from statcord.client import StatcordClient, HEADERS
+from statcord.client import HEADERS, StatcordClient
 
 STAT_ENDPOINT = "https://api.statcord.com/v3/clusters"
 

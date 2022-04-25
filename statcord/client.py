@@ -1,9 +1,10 @@
-from collections import defaultdict
-from typing import Callable, DefaultDict, Optional, Set, Union
-import traceback
-import aiohttp
 import asyncio
 import logging
+import traceback
+from collections import defaultdict
+from typing import Callable, DefaultDict, Optional, Set, Union
+
+import aiohttp
 import psutil
 
 HEADERS = {"Content-Type": "application/json"}

@@ -1,5 +1,6 @@
-from statcord import StatcordClient
 from discord.ext import commands
+
+from statcord import StatcordClient
 
 
 async def custom_graph_1():
